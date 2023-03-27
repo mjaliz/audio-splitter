@@ -119,7 +119,7 @@ class Splitter:
             print(f"Exporting chunk{i + 1}.mp3")
             normalized_chunk.export(
                 f"{output_dir}/chunk{i + 1}.mp3",
-                bitrate="48k",
+                bitrate="48k",  
                 format="mp3"
             )
         self.__decrease_silence(output_dir)
