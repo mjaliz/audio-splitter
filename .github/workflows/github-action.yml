@@ -2,7 +2,7 @@ name: Deploy front staging
 on: [ push ]
 jobs:
   Deploy-Front-Staging:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - run: echo "this is idrsa $STAGING_SERVER_ID_RSA"
       - run: echo "this is server user $STAGING_SERVER_USER"
