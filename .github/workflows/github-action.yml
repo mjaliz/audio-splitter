@@ -4,7 +4,7 @@ jobs:
   Deploy-Front-Staging:
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "this is idrsa " $STAGING_SERVER_ID_RSA
+      - run: echo "this is idrsa " ${{vars.STAGING_SERVER_ID_RSA}}
       - run: echo "this is server user " $STAGING_SERVER_USER
       - run: echo "this is server ip " $STAGING_SERVER_IP
       - run: echo "this is staging dir " $STAGING_PROJECT_DIRECTORY
