@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: echo "this is idrsa " ${{vars.STAGING_SERVER_ID_RSA}}
-      - run: echo "this is server user " $STAGING_SERVER_USER
-      - run: echo "this is server ip " $STAGING_SERVER_IP
-      - run: echo "this is staging dir " $STAGING_PROJECT_DIRECTORY
-      - run: chmod og= $STAGING_SERVER_ID_RSA
+      - run: echo "this is server user " ${{vars.STAGING_SERVER_USER}}
+      - run: echo "this is server ip " ${{vars.STAGING_SERVER_IP}}
+      - run: echo "this is staging dir " ${{vars.STAGING_PROJECT_DIRECTORY}}
+      - run: chmod +og= ${{vars.STAGING_SERVER_ID_RSA}}
       - run: apt update && apt install openssh-client && apt install curl -y
       - run: ssh -i $STAGING_SERVER_ID_RSA -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "
           cd $STAGING_PROJECT_DIRECTORY &&
