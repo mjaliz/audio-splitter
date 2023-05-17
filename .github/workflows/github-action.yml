@@ -1,1 +1,13 @@
-name: deploy front staging
+name: Deploy front staging
+on: [ push ]
+jobs:
+  Deploy-Front-Staging:
+    runs-on: ubuntu-18.04
+    steps:
+      - run: chmod og= $STAGING_SERVER_ID_RSA
+      - run: apt update && apt install openssh-client && apt install curl -y
+      - run: ssh -i $STAGING_SERVER_ID_RSA -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "
+          cd $STAGING_PROJECT_DIRECTORY &&
+          git pull &&
+          docker-compose up --force-recreate -d"
+      - run: while  ! curl -sI $STAGING_FRONT_BASE_URL | grep 401; do sleep 1; done && echo "server is running"
