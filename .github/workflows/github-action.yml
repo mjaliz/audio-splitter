@@ -1,5 +1,8 @@
 name: Deploy front staging
-on: [ push ]
+on:
+  push:
+    branches:
+      - dev
 jobs:
   Deploy-Front-Staging:
     runs-on: ubuntu-22.04
@@ -11,7 +14,7 @@ jobs:
           username: ${{ secrets.STAGING_SERVER_USER }}
           key: ${{ secrets.STAGING_SERVER_ID_RSA }}
           script: |
-            cd ${{vars.STAGING_PROJECT_DIRECTORY}}
+            cd ${{ vars.STAGING_PROJECT_DIRECTORY }}
             git pull
             docker-compose up --build -d
       - run: apt update && apt install curl -y
