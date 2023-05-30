@@ -13,5 +13,5 @@ jobs:
       - run: ssh -i $STAGING_SERVER_ID_RSA -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "
           cd $STAGING_PROJECT_DIRECTORY &&
           git pull &&
-          docker-compose up --force-recreate -d"
+          docker-compose up --build -d"
       - run: while  ! curl -sI $STAGING_FRONT_BASE_URL | grep 401; do sleep 1; done && echo "server is running"
