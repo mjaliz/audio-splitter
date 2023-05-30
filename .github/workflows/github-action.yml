@@ -4,14 +4,15 @@ jobs:
   Deploy-Front-Staging:
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "this is idrsa " ${{vars.STAGING_SERVER_ID_RSA}}
-      - run: echo "this is server user " ${{vars.STAGING_SERVER_USER}}
-      - run: echo "this is server ip " ${{vars.STAGING_SERVER_IP}}
-      - run: echo "this is staging dir " ${{vars.STAGING_PROJECT_DIRECTORY}}
-      - run: chmod +og ${{vars.STAGING_SERVER_ID_RSA}}
-      - run: apt update && apt install openssh-client && apt install curl -y
-      - run: ssh -i $STAGING_SERVER_ID_RSA -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "
-          cd $STAGING_PROJECT_DIRECTORY &&
-          git pull &&
-          docker-compose up --build -d"
+      - name: SSH remote commands
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.STAGING_SERVER_IP }}
+          username: ${{ secrets.STAGING_SERVER_USER }}
+          key: ${{ secrets.STAGING_SERVER_ID_RSA }}
+          script: |
+            cd ${{vars.STAGING_PROJECT_DIRECTORY}}
+            git pull
+            docker-compose up --build -d
+      - run: apt update && apt install curl -y
       - run: while  ! curl -sI $STAGING_FRONT_BASE_URL | grep 401; do sleep 1; done && echo "server is running"
